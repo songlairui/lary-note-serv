@@ -3,13 +3,13 @@ type User {
   name: String!
   pwd: String!
   email: String! @unique
-  profile: Profile! @relation(link: INLINE)
-  notes: [Note!]!
+  profile: Profile! @relation(name: "UserProfile", link: INLINE)
+  notes: [Note!]! @relation(name: "NoteAuthor")
 }
 
 type Profile {
-  id: ID! @id
-  user: User!
+  id: ID! @unique
+  user: User! @relation(name: "UserProfile")
   wechat: String
   qq: String
   weibo: String
@@ -27,5 +27,5 @@ type Note {
   title: String
   content: String!
   theme: String
-  author: User! @relation(link: INLINE)
+  author: User! @relation(name: "NoteAuthor", link: INLINE)
 }
