@@ -27,5 +27,15 @@ services:
       POSTGRES_PASSWORD: rvnote
     volumes:
       - postgres:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 20001:8080
 volumes:
   postgres:
+
+networks:
+  default:
+    external:
+      name: multi-compose

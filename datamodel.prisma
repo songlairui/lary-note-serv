@@ -1,4 +1,31 @@
 type User {
   id: ID! @unique
   name: String!
+  pwd: String!
+  email: String! @unique
+  profile: Profile! @relation(link: INLINE)
+  notes: [Note!]!
+}
+
+type Profile {
+  id: ID! @id
+  user: User!
+  wechat: String
+  qq: String
+  weibo: String
+  zhihu: String
+  github: String
+  facebook: String
+  linkin: String
+  google: String
+  juejin: String
+  avatar: String
+}
+
+type Note {
+  id: ID! @unique
+  title: String
+  content: String!
+  theme: String
+  author: User! @relation(link: INLINE)
 }
