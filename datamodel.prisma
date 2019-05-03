@@ -28,4 +28,11 @@ type Note {
   content: String!
   theme: String
   author: User! @relation(name: "NoteAuthor", link: INLINE)
+  categories: [Category!]! @relation(name: "NoteInCate", link: TABLE)
+}
+
+type Category {
+  id: ID! @unique
+  name: String
+  notes: [Note!]! @relation(name: "NoteInCate")
 }
