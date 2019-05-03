@@ -1,5 +1,5 @@
 type User {
-  id: ID! @unique
+  id: ID! @id
   name: String!
   pwd: String!
   email: String! @unique
@@ -8,7 +8,7 @@ type User {
 }
 
 type Profile {
-  id: ID! @unique
+  id: ID! @id
   user: User! @relation(name: "UserProfile")
   wechat: String
   qq: String
@@ -23,7 +23,7 @@ type Profile {
 }
 
 type Note {
-  id: ID! @unique
+  id: ID! @id
   title: String
   content: String!
   theme: String
@@ -32,7 +32,7 @@ type Note {
 }
 
 type Category {
-  id: ID! @unique
+  id: ID! @id
   name: String
   notes: [Note!]! @relation(name: "NoteInCate")
 }
