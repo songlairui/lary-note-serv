@@ -1,13 +1,13 @@
 FROM node:8.16.0-alpine as dist
 WORKDIR /tmp/
-COPY package.json yarn.lock tsconfig.json ./
+COPY package.json tsconfig.json ./
 COPY src/ src/
 RUN yarn
 RUN yarn build
 
 FROM node:8.16.0-alpine as node_modules
 WORKDIR /tmp/
-COPY package.json yarn.lock ./
+COPY package.json ./
 RUN yarn install --production
 
 FROM node:8.16.0-alpine
