@@ -19,17 +19,20 @@ export class NoteResolver {
   @Query('notes')
   @UseGuards(JwtAuthGuard)
   async myNotes(
-    @Args('where') where: NoteWhereInput,
+    @Args() args,
     @Info() info,
     @CurUser() curUser,
   ): Promise<Note[]> {
-    if (where.author) {
+    if (!args.where) {
+      args.where = new NoteWhereInput();
+    }
+    if (args.where.author) {
       this.logger.warn(`querying user ${curUser.email}`);
     }
     const author: UserWhereInput = new UserWhereInput();
     author.email = curUser.email;
-    where.author = author;
-    return await this.prisma.query.notes({ where }, info);
+    args.where.author = author;
+    return await this.prisma.query.notes(args, info);
   }
 
   @Mutation('createNoteAuto')
