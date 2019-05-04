@@ -1,6 +1,6 @@
 FROM node:carbon-alpine as dist
 WORKDIR /tmp/
-COPY package.json tsconfig.json ./
+COPY package.json tsconfig.json tsconfig.build.json ./
 COPY src/ src/
 RUN yarn config set registry https://registry.npm.taobao.org
 RUN yarn
