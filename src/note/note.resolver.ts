@@ -6,10 +6,10 @@ import {
   NoteWhereInput,
   UserWhereInput,
 } from '../graphql.schema';
-import { CurUser } from 'src/user.decorator';
+import { CurUser } from '../user.decorator';
 import { UseGuards, Logger } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Note } from 'src/prisma/prisma.binding';
+import { Note } from '../prisma/prisma.binding';
 
 @Resolver('Note')
 export class NoteResolver {

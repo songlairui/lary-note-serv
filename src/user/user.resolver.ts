@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, Info, Mutation } from '@nestjs/graphql';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from 'src/graphql.schema';
+import { User } from '../graphql.schema';
 
 @Resolver('User')
 export class UserResolver {

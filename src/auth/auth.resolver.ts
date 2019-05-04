@@ -1,5 +1,5 @@
 import { Resolver, Query, Args, Info, Mutation } from '@nestjs/graphql';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import {
   SignupInput,
   UserCreateInput,
@@ -7,7 +7,7 @@ import {
   UserAbstract,
   LoginInfo,
   UserOrderByInput,
-} from 'src/graphql.schema';
+} from '../graphql.schema';
 import * as bcrypt from 'bcrypt';
 import {
   NotFoundException,
