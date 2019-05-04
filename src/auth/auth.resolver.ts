@@ -8,7 +8,7 @@ import {
   LoginInfo,
 } from 'src/graphql.schema';
 import * as bcrypt from 'bcrypt';
-import { NotFoundException, Logger, UseGuards, Req } from '@nestjs/common';
+import { NotFoundException, Logger, UseGuards } from '@nestjs/common';
 import { JwtPayload } from './jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../prisma/prisma.binding';
@@ -72,9 +72,10 @@ export class AuthResolver {
 
   @Query('selfProfile')
   @UseGuards(JwtAuthGuard)
-  async myProfile(@CurrentUser() curUser): Promise<User> {
+  async myProfile(@CurrentUser() curUser, @Info() info): Promise<User> {
     const { email } = curUser;
-    const user = await this.prisma.query.user({ where: email });
+    const user = await this.prisma.query.user({ where: { email } }, info);
+    delete user.pwd;
     return user;
   }
 }
