@@ -8,3 +8,4 @@ generate:
 hooks:
   post-deploy:
     - graphql get-schema --project database
+    - graphql codegen --project database

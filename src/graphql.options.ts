@@ -14,10 +14,10 @@ export class GraphqlOptions implements GqlOptionsFactory {
       resolverValidationOptions: {
         requireResolversForResolveType: false,
       },
-      definitions: {
-        path: join(process.cwd(), 'src/graphql.schema.d.ts'),
-        outputAs: 'class',
-      },
+      // definitions: {
+      //   path: join(process.cwd(), 'src/graphql.schema.ts'),
+      //   outputAs: 'class',
+      // },
       context: ({ req }) => ({ req }),
     };
   }

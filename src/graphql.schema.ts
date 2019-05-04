@@ -26,7 +26,11 @@ export enum NoteOrderByInput {
     content_ASC = "content_ASC",
     content_DESC = "content_DESC",
     theme_ASC = "theme_ASC",
-    theme_DESC = "theme_DESC"
+    theme_DESC = "theme_DESC",
+    createdAt_ASC = "createdAt_ASC",
+    createdAt_DESC = "createdAt_DESC",
+    updatedAt_ASC = "updatedAt_ASC",
+    updatedAt_DESC = "updatedAt_DESC"
 }
 
 export enum PrismaDatabase {
@@ -66,7 +70,11 @@ export enum UserOrderByInput {
     pwd_ASC = "pwd_ASC",
     pwd_DESC = "pwd_DESC",
     email_ASC = "email_ASC",
-    email_DESC = "email_DESC"
+    email_DESC = "email_DESC",
+    createdAt_ASC = "createdAt_ASC",
+    createdAt_DESC = "createdAt_DESC",
+    updatedAt_ASC = "updatedAt_ASC",
+    updatedAt_DESC = "updatedAt_DESC"
 }
 
 export class CategoryCreateInput {
@@ -311,6 +319,22 @@ export class NoteScalarWhereInput {
     theme_not_starts_with?: string;
     theme_ends_with?: string;
     theme_not_ends_with?: string;
+    createdAt?: DateTime;
+    createdAt_not?: DateTime;
+    createdAt_in: DateTime[];
+    createdAt_not_in: DateTime[];
+    createdAt_lt?: DateTime;
+    createdAt_lte?: DateTime;
+    createdAt_gt?: DateTime;
+    createdAt_gte?: DateTime;
+    updatedAt?: DateTime;
+    updatedAt_not?: DateTime;
+    updatedAt_in: DateTime[];
+    updatedAt_not_in: DateTime[];
+    updatedAt_lt?: DateTime;
+    updatedAt_lte?: DateTime;
+    updatedAt_gt?: DateTime;
+    updatedAt_gte?: DateTime;
 }
 
 export class NoteSubscriptionWhereInput {
@@ -469,6 +493,22 @@ export class NoteWhereInput {
     theme_not_starts_with?: string;
     theme_ends_with?: string;
     theme_not_ends_with?: string;
+    createdAt?: DateTime;
+    createdAt_not?: DateTime;
+    createdAt_in: DateTime[];
+    createdAt_not_in: DateTime[];
+    createdAt_lt?: DateTime;
+    createdAt_lte?: DateTime;
+    createdAt_gt?: DateTime;
+    createdAt_gte?: DateTime;
+    updatedAt?: DateTime;
+    updatedAt_not?: DateTime;
+    updatedAt_in: DateTime[];
+    updatedAt_not_in: DateTime[];
+    updatedAt_lt?: DateTime;
+    updatedAt_lte?: DateTime;
+    updatedAt_gt?: DateTime;
+    updatedAt_gte?: DateTime;
     author?: UserWhereInput;
     categories_every?: CategoryWhereInput;
     categories_some?: CategoryWhereInput;
@@ -910,6 +950,22 @@ export class UserWhereInput {
     email_not_starts_with?: string;
     email_ends_with?: string;
     email_not_ends_with?: string;
+    createdAt?: DateTime;
+    createdAt_not?: DateTime;
+    createdAt_in: DateTime[];
+    createdAt_not_in: DateTime[];
+    createdAt_lt?: DateTime;
+    createdAt_lte?: DateTime;
+    createdAt_gt?: DateTime;
+    createdAt_gte?: DateTime;
+    updatedAt?: DateTime;
+    updatedAt_not?: DateTime;
+    updatedAt_in: DateTime[];
+    updatedAt_not_in: DateTime[];
+    updatedAt_lt?: DateTime;
+    updatedAt_lte?: DateTime;
+    updatedAt_gt?: DateTime;
+    updatedAt_gte?: DateTime;
     profile?: ProfileWhereInput;
     notes_every?: NoteWhereInput;
     notes_some?: NoteWhereInput;
@@ -984,6 +1040,8 @@ export abstract class IMutation {
 
     abstract signup(signupInput?: SignupInput): UserAbstract | Promise<UserAbstract>;
 
+    abstract resetLimit(): string | Promise<string>;
+
     abstract createNoteAuto(data: NoteCreateWithoutAuthorInput): Note | Promise<Note>;
 
     abstract createUser(data: UserCreateInput): User | Promise<User>;
@@ -1044,6 +1102,8 @@ export class Note implements Node {
     theme?: string;
     author: User;
     categories: Category[];
+    createdAt: DateTime;
+    updatedAt: DateTime;
 }
 
 export class NoteConnection {
@@ -1062,6 +1122,8 @@ export class NotePreviousValues {
     title?: string;
     content: string;
     theme?: string;
+    createdAt: DateTime;
+    updatedAt: DateTime;
 }
 
 export class NoteSubscriptionPayload {
@@ -1174,6 +1236,8 @@ export class User implements Node {
     email: string;
     profile: Profile;
     notes: Note[];
+    createdAt: DateTime;
+    updatedAt: DateTime;
 }
 
 export class UserAbstract {
@@ -1198,6 +1262,8 @@ export class UserPreviousValues {
     name: string;
     pwd: string;
     email: string;
+    createdAt: DateTime;
+    updatedAt: DateTime;
 }
 
 export class UserSubscriptionPayload {
@@ -1207,5 +1273,6 @@ export class UserSubscriptionPayload {
     previousValues?: UserPreviousValues;
 }
 
+export type DateTime = any;
 export type Json = any;
 export type Long = any;

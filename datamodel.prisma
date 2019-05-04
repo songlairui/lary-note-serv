@@ -5,7 +5,9 @@ type User {
   email: String! @unique
   profile: Profile!
     @relation(name: "UserProfile", link: INLINE, onDelete: CASCADE)
-  notes: [Note!]! @relation(name: "NoteAuthor")
+  notes: [Note!]! @relation(name: "NoteAuthor", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt  
 }
 
 type Profile {
@@ -30,6 +32,8 @@ type Note {
   theme: String
   author: User! @relation(name: "NoteAuthor", link: INLINE)
   categories: [Category!]! @relation(name: "NoteInCate", link: TABLE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Category {

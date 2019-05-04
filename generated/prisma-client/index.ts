@@ -226,7 +226,11 @@ export type NoteOrderByInput =
   | "content_ASC"
   | "content_DESC"
   | "theme_ASC"
-  | "theme_DESC";
+  | "theme_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type CategoryOrderByInput =
   | "id_ASC"
@@ -266,25 +270,109 @@ export type UserOrderByInput =
   | "pwd_ASC"
   | "pwd_DESC"
   | "email_ASC"
-  | "email_DESC";
+  | "email_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserUpsertWithoutNotesInput {
-  update: UserUpdateWithoutNotesDataInput;
-  create: UserCreateWithoutNotesInput;
+export interface ProfileUpsertWithoutUserInput {
+  update: ProfileUpdateWithoutUserDataInput;
+  create: ProfileCreateWithoutUserInput;
 }
 
 export type CategoryWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export interface UserCreateWithoutNotesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  pwd: String;
+  email: String;
+  profile: ProfileCreateOneWithoutUserInput;
+}
+
+export interface CategoryUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface ProfileCreateOneWithoutUserInput {
+  create?: Maybe<ProfileCreateWithoutUserInput>;
+  connect?: Maybe<ProfileWhereUniqueInput>;
+}
+
 export interface NoteUpdateManyWithWhereNestedInput {
   where: NoteScalarWhereInput;
   data: NoteUpdateManyDataInput;
 }
 
-export interface CategoryWhereInput {
+export interface ProfileCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  wechat?: Maybe<String>;
+  qq?: Maybe<String>;
+  weibo?: Maybe<String>;
+  zhihu?: Maybe<String>;
+  github?: Maybe<String>;
+  facebook?: Maybe<String>;
+  linkin?: Maybe<String>;
+  google?: Maybe<String>;
+  juejin?: Maybe<String>;
+  avatar?: Maybe<String>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface CategoryUpdateInput {
+  name?: Maybe<String>;
+  notes?: Maybe<NoteUpdateManyWithoutCategoriesInput>;
+}
+
+export interface NoteSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<NoteWhereInput>;
+  AND?: Maybe<NoteSubscriptionWhereInput[] | NoteSubscriptionWhereInput>;
+  OR?: Maybe<NoteSubscriptionWhereInput[] | NoteSubscriptionWhereInput>;
+  NOT?: Maybe<NoteSubscriptionWhereInput[] | NoteSubscriptionWhereInput>;
+}
+
+export interface NoteUpdateManyWithoutCategoriesInput {
+  create?: Maybe<
+    NoteCreateWithoutCategoriesInput[] | NoteCreateWithoutCategoriesInput
+  >;
+  delete?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+  connect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+  set?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+  disconnect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+  update?: Maybe<
+    | NoteUpdateWithWhereUniqueWithoutCategoriesInput[]
+    | NoteUpdateWithWhereUniqueWithoutCategoriesInput
+  >;
+  upsert?: Maybe<
+    | NoteUpsertWithWhereUniqueWithoutCategoriesInput[]
+    | NoteUpsertWithWhereUniqueWithoutCategoriesInput
+  >;
+  deleteMany?: Maybe<NoteScalarWhereInput[] | NoteScalarWhereInput>;
+  updateMany?: Maybe<
+    NoteUpdateManyWithWhereNestedInput[] | NoteUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -313,76 +401,57 @@ export interface CategoryWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  pwd?: Maybe<String>;
+  pwd_not?: Maybe<String>;
+  pwd_in?: Maybe<String[] | String>;
+  pwd_not_in?: Maybe<String[] | String>;
+  pwd_lt?: Maybe<String>;
+  pwd_lte?: Maybe<String>;
+  pwd_gt?: Maybe<String>;
+  pwd_gte?: Maybe<String>;
+  pwd_contains?: Maybe<String>;
+  pwd_not_contains?: Maybe<String>;
+  pwd_starts_with?: Maybe<String>;
+  pwd_not_starts_with?: Maybe<String>;
+  pwd_ends_with?: Maybe<String>;
+  pwd_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  profile?: Maybe<ProfileWhereInput>;
   notes_every?: Maybe<NoteWhereInput>;
   notes_some?: Maybe<NoteWhereInput>;
   notes_none?: Maybe<NoteWhereInput>;
-  AND?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-  OR?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-  NOT?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
-}
-
-export interface ProfileCreateWithoutUserInput {
-  id?: Maybe<ID_Input>;
-  wechat?: Maybe<String>;
-  qq?: Maybe<String>;
-  weibo?: Maybe<String>;
-  zhihu?: Maybe<String>;
-  github?: Maybe<String>;
-  facebook?: Maybe<String>;
-  linkin?: Maybe<String>;
-  google?: Maybe<String>;
-  juejin?: Maybe<String>;
-  avatar?: Maybe<String>;
-}
-
-export interface NoteUpdateManyMutationInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  theme?: Maybe<String>;
-}
-
-export interface CategoryUpdateInput {
-  name?: Maybe<String>;
-  notes?: Maybe<NoteUpdateManyWithoutCategoriesInput>;
-}
-
-export interface NoteUpdateManyDataInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  theme?: Maybe<String>;
-}
-
-export interface NoteUpdateManyWithoutCategoriesInput {
-  create?: Maybe<
-    NoteCreateWithoutCategoriesInput[] | NoteCreateWithoutCategoriesInput
-  >;
-  delete?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  connect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  set?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  disconnect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  update?: Maybe<
-    | NoteUpdateWithWhereUniqueWithoutCategoriesInput[]
-    | NoteUpdateWithWhereUniqueWithoutCategoriesInput
-  >;
-  upsert?: Maybe<
-    | NoteUpsertWithWhereUniqueWithoutCategoriesInput[]
-    | NoteUpsertWithWhereUniqueWithoutCategoriesInput
-  >;
-  deleteMany?: Maybe<NoteScalarWhereInput[] | NoteScalarWhereInput>;
-  updateMany?: Maybe<
-    NoteUpdateManyWithWhereNestedInput[] | NoteUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface ProfileSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ProfileWhereInput>;
-  AND?: Maybe<ProfileSubscriptionWhereInput[] | ProfileSubscriptionWhereInput>;
-  OR?: Maybe<ProfileSubscriptionWhereInput[] | ProfileSubscriptionWhereInput>;
-  NOT?: Maybe<ProfileSubscriptionWhereInput[] | ProfileSubscriptionWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
 export interface NoteUpdateWithWhereUniqueWithoutCategoriesInput {
@@ -390,15 +459,12 @@ export interface NoteUpdateWithWhereUniqueWithoutCategoriesInput {
   data: NoteUpdateWithoutCategoriesDataInput;
 }
 
-export interface NoteSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<NoteWhereInput>;
-  AND?: Maybe<NoteSubscriptionWhereInput[] | NoteSubscriptionWhereInput>;
-  OR?: Maybe<NoteSubscriptionWhereInput[] | NoteSubscriptionWhereInput>;
-  NOT?: Maybe<NoteSubscriptionWhereInput[] | NoteSubscriptionWhereInput>;
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  pwd?: Maybe<String>;
+  email?: Maybe<String>;
+  profile?: Maybe<ProfileUpdateOneRequiredWithoutUserInput>;
+  notes?: Maybe<NoteUpdateManyWithoutAuthorInput>;
 }
 
 export interface NoteUpdateWithoutCategoriesDataInput {
@@ -406,35 +472,6 @@ export interface NoteUpdateWithoutCategoriesDataInput {
   content?: Maybe<String>;
   theme?: Maybe<String>;
   author?: Maybe<UserUpdateOneRequiredWithoutNotesInput>;
-}
-
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
-  pwd?: Maybe<String>;
-  email?: Maybe<String>;
-}
-
-export interface UserUpdateOneRequiredWithoutNotesInput {
-  create?: Maybe<UserCreateWithoutNotesInput>;
-  update?: Maybe<UserUpdateWithoutNotesDataInput>;
-  upsert?: Maybe<UserUpsertWithoutNotesInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  pwd: String;
-  email: String;
-  profile: ProfileCreateOneWithoutUserInput;
-  notes?: Maybe<NoteCreateManyWithoutAuthorInput>;
-}
-
-export interface UserUpdateWithoutNotesDataInput {
-  name?: Maybe<String>;
-  pwd?: Maybe<String>;
-  email?: Maybe<String>;
-  profile?: Maybe<ProfileUpdateOneRequiredWithoutUserInput>;
 }
 
 export interface ProfileUpdateManyMutationInput {
@@ -450,6 +487,31 @@ export interface ProfileUpdateManyMutationInput {
   avatar?: Maybe<String>;
 }
 
+export interface UserUpdateOneRequiredWithoutNotesInput {
+  create?: Maybe<UserCreateWithoutNotesInput>;
+  update?: Maybe<UserUpdateWithoutNotesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutNotesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export type NoteWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface UserUpdateWithoutNotesDataInput {
+  name?: Maybe<String>;
+  pwd?: Maybe<String>;
+  email?: Maybe<String>;
+  profile?: Maybe<ProfileUpdateOneRequiredWithoutUserInput>;
+}
+
+export interface NoteUpdateWithoutAuthorDataInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  theme?: Maybe<String>;
+  categories?: Maybe<CategoryUpdateManyWithoutNotesInput>;
+}
+
 export interface ProfileUpdateOneRequiredWithoutUserInput {
   create?: Maybe<ProfileCreateWithoutUserInput>;
   update?: Maybe<ProfileUpdateWithoutUserDataInput>;
@@ -457,11 +519,9 @@ export interface ProfileUpdateOneRequiredWithoutUserInput {
   connect?: Maybe<ProfileWhereUniqueInput>;
 }
 
-export interface NoteUpsertWithWhereUniqueWithoutAuthorInput {
-  where: NoteWhereUniqueInput;
-  update: NoteUpdateWithoutAuthorDataInput;
-  create: NoteCreateWithoutAuthorInput;
-}
+export type ProfileWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface ProfileUpdateWithoutUserDataInput {
   wechat?: Maybe<String>;
@@ -476,96 +536,29 @@ export interface ProfileUpdateWithoutUserDataInput {
   avatar?: Maybe<String>;
 }
 
-export interface NoteWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  content?: Maybe<String>;
-  content_not?: Maybe<String>;
-  content_in?: Maybe<String[] | String>;
-  content_not_in?: Maybe<String[] | String>;
-  content_lt?: Maybe<String>;
-  content_lte?: Maybe<String>;
-  content_gt?: Maybe<String>;
-  content_gte?: Maybe<String>;
-  content_contains?: Maybe<String>;
-  content_not_contains?: Maybe<String>;
-  content_starts_with?: Maybe<String>;
-  content_not_starts_with?: Maybe<String>;
-  content_ends_with?: Maybe<String>;
-  content_not_ends_with?: Maybe<String>;
-  theme?: Maybe<String>;
-  theme_not?: Maybe<String>;
-  theme_in?: Maybe<String[] | String>;
-  theme_not_in?: Maybe<String[] | String>;
-  theme_lt?: Maybe<String>;
-  theme_lte?: Maybe<String>;
-  theme_gt?: Maybe<String>;
-  theme_gte?: Maybe<String>;
-  theme_contains?: Maybe<String>;
-  theme_not_contains?: Maybe<String>;
-  theme_starts_with?: Maybe<String>;
-  theme_not_starts_with?: Maybe<String>;
-  theme_ends_with?: Maybe<String>;
-  theme_not_ends_with?: Maybe<String>;
-  author?: Maybe<UserWhereInput>;
-  categories_every?: Maybe<CategoryWhereInput>;
-  categories_some?: Maybe<CategoryWhereInput>;
-  categories_none?: Maybe<CategoryWhereInput>;
-  AND?: Maybe<NoteWhereInput[] | NoteWhereInput>;
-  OR?: Maybe<NoteWhereInput[] | NoteWhereInput>;
-  NOT?: Maybe<NoteWhereInput[] | NoteWhereInput>;
-}
-
-export interface ProfileUpsertWithoutUserInput {
-  update: ProfileUpdateWithoutUserDataInput;
-  create: ProfileCreateWithoutUserInput;
-}
-
-export interface NoteUpdateWithWhereUniqueWithoutAuthorInput {
-  where: NoteWhereUniqueInput;
-  data: NoteUpdateWithoutAuthorDataInput;
-}
-
-export interface NoteCreateManyWithoutAuthorInput {
+export interface NoteUpdateManyWithoutAuthorInput {
   create?: Maybe<NoteCreateWithoutAuthorInput[] | NoteCreateWithoutAuthorInput>;
+  delete?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
   connect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+  set?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+  disconnect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+  update?: Maybe<
+    | NoteUpdateWithWhereUniqueWithoutAuthorInput[]
+    | NoteUpdateWithWhereUniqueWithoutAuthorInput
+  >;
+  upsert?: Maybe<
+    | NoteUpsertWithWhereUniqueWithoutAuthorInput[]
+    | NoteUpsertWithWhereUniqueWithoutAuthorInput
+  >;
+  deleteMany?: Maybe<NoteScalarWhereInput[] | NoteScalarWhereInput>;
+  updateMany?: Maybe<
+    NoteUpdateManyWithWhereNestedInput[] | NoteUpdateManyWithWhereNestedInput
+  >;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-}>;
-
-export interface NoteUpsertWithWhereUniqueWithoutCategoriesInput {
-  where: NoteWhereUniqueInput;
-  update: NoteUpdateWithoutCategoriesDataInput;
-  create: NoteCreateWithoutCategoriesInput;
+export interface UserCreateOneWithoutProfileInput {
+  create?: Maybe<UserCreateWithoutProfileInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface UserUpdateOneRequiredWithoutProfileInput {
@@ -573,6 +566,36 @@ export interface UserUpdateOneRequiredWithoutProfileInput {
   update?: Maybe<UserUpdateWithoutProfileDataInput>;
   upsert?: Maybe<UserUpsertWithoutProfileInput>;
   connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpsertWithoutNotesInput {
+  update: UserUpdateWithoutNotesDataInput;
+  create: UserCreateWithoutNotesInput;
+}
+
+export interface ProfileUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutProfileInput>;
+  wechat?: Maybe<String>;
+  qq?: Maybe<String>;
+  weibo?: Maybe<String>;
+  zhihu?: Maybe<String>;
+  github?: Maybe<String>;
+  facebook?: Maybe<String>;
+  linkin?: Maybe<String>;
+  google?: Maybe<String>;
+  juejin?: Maybe<String>;
+  avatar?: Maybe<String>;
+}
+
+export interface NoteUpsertWithWhereUniqueWithoutCategoriesInput {
+  where: NoteWhereUniqueInput;
+  update: NoteUpdateWithoutCategoriesDataInput;
+  create: NoteCreateWithoutCategoriesInput;
+}
+
+export interface NoteCreateManyWithoutAuthorInput {
+  create?: Maybe<NoteCreateWithoutAuthorInput[] | NoteCreateWithoutAuthorInput>;
+  connect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
 }
 
 export interface NoteScalarWhereInput {
@@ -632,9 +655,155 @@ export interface NoteScalarWhereInput {
   theme_not_starts_with?: Maybe<String>;
   theme_ends_with?: Maybe<String>;
   theme_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<NoteScalarWhereInput[] | NoteScalarWhereInput>;
   OR?: Maybe<NoteScalarWhereInput[] | NoteScalarWhereInput>;
   NOT?: Maybe<NoteScalarWhereInput[] | NoteScalarWhereInput>;
+}
+
+export interface NoteCreateManyWithoutCategoriesInput {
+  create?: Maybe<
+    NoteCreateWithoutCategoriesInput[] | NoteCreateWithoutCategoriesInput
+  >;
+  connect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+}
+
+export interface CategoryWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  notes_every?: Maybe<NoteWhereInput>;
+  notes_some?: Maybe<NoteWhereInput>;
+  notes_none?: Maybe<NoteWhereInput>;
+  AND?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+  OR?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+  NOT?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+}
+
+export interface UserCreateOneWithoutNotesInput {
+  create?: Maybe<UserCreateWithoutNotesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface NoteUpdateManyDataInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  theme?: Maybe<String>;
+}
+
+export interface ProfileSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ProfileWhereInput>;
+  AND?: Maybe<ProfileSubscriptionWhereInput[] | ProfileSubscriptionWhereInput>;
+  OR?: Maybe<ProfileSubscriptionWhereInput[] | ProfileSubscriptionWhereInput>;
+  NOT?: Maybe<ProfileSubscriptionWhereInput[] | ProfileSubscriptionWhereInput>;
+}
+
+export interface CategoryUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  pwd?: Maybe<String>;
+  email?: Maybe<String>;
+}
+
+export interface ProfileCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutProfileInput;
+  wechat?: Maybe<String>;
+  qq?: Maybe<String>;
+  weibo?: Maybe<String>;
+  zhihu?: Maybe<String>;
+  github?: Maybe<String>;
+  facebook?: Maybe<String>;
+  linkin?: Maybe<String>;
+  google?: Maybe<String>;
+  juejin?: Maybe<String>;
+  avatar?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutProfileInput {
+  update: UserUpdateWithoutProfileDataInput;
+  create: UserCreateWithoutProfileInput;
+}
+
+export interface NoteUpdateManyMutationInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  theme?: Maybe<String>;
+}
+
+export interface NoteUpdateWithWhereUniqueWithoutAuthorInput {
+  where: NoteWhereUniqueInput;
+  data: NoteUpdateWithoutAuthorDataInput;
+}
+
+export interface NoteCreateInput {
+  id?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  content: String;
+  theme?: Maybe<String>;
+  author: UserCreateOneWithoutNotesInput;
+  categories?: Maybe<CategoryCreateManyWithoutNotesInput>;
+}
+
+export interface UserUpdateWithoutProfileDataInput {
+  name?: Maybe<String>;
+  pwd?: Maybe<String>;
+  email?: Maybe<String>;
+  notes?: Maybe<NoteUpdateManyWithoutAuthorInput>;
+}
+
+export interface CategoryCreateManyWithoutNotesInput {
+  create?: Maybe<
+    CategoryCreateWithoutNotesInput[] | CategoryCreateWithoutNotesInput
+  >;
+  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
 }
 
 export interface NoteCreateWithoutAuthorInput {
@@ -643,6 +812,25 @@ export interface NoteCreateWithoutAuthorInput {
   content: String;
   theme?: Maybe<String>;
   categories?: Maybe<CategoryCreateManyWithoutNotesInput>;
+}
+
+export interface CategoryCreateWithoutNotesInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+}
+
+export interface CategoryCreateInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  notes?: Maybe<NoteCreateManyWithoutCategoriesInput>;
+}
+
+export interface NoteUpdateInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  theme?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredWithoutNotesInput>;
+  categories?: Maybe<CategoryUpdateManyWithoutNotesInput>;
 }
 
 export interface ProfileWhereInput {
@@ -806,157 +994,6 @@ export interface ProfileWhereInput {
   NOT?: Maybe<ProfileWhereInput[] | ProfileWhereInput>;
 }
 
-export interface CategoryCreateInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  notes?: Maybe<NoteCreateManyWithoutCategoriesInput>;
-}
-
-export interface UserCreateWithoutProfileInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  pwd: String;
-  email: String;
-  notes?: Maybe<NoteCreateManyWithoutAuthorInput>;
-}
-
-export interface NoteCreateWithoutCategoriesInput {
-  id?: Maybe<ID_Input>;
-  title?: Maybe<String>;
-  content: String;
-  theme?: Maybe<String>;
-  author: UserCreateOneWithoutNotesInput;
-}
-
-export interface CategoryUpdateManyMutationInput {
-  name?: Maybe<String>;
-}
-
-export interface UserCreateWithoutNotesInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  pwd: String;
-  email: String;
-  profile: ProfileCreateOneWithoutUserInput;
-}
-
-export interface UserCreateOneWithoutProfileInput {
-  create?: Maybe<UserCreateWithoutProfileInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface ProfileCreateInput {
-  id?: Maybe<ID_Input>;
-  user: UserCreateOneWithoutProfileInput;
-  wechat?: Maybe<String>;
-  qq?: Maybe<String>;
-  weibo?: Maybe<String>;
-  zhihu?: Maybe<String>;
-  github?: Maybe<String>;
-  facebook?: Maybe<String>;
-  linkin?: Maybe<String>;
-  google?: Maybe<String>;
-  juejin?: Maybe<String>;
-  avatar?: Maybe<String>;
-}
-
-export interface CategorySubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CategoryWhereInput>;
-  AND?: Maybe<
-    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
-  >;
-  OR?: Maybe<CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput>;
-  NOT?: Maybe<
-    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
-  >;
-}
-
-export interface NoteCreateInput {
-  id?: Maybe<ID_Input>;
-  title?: Maybe<String>;
-  content: String;
-  theme?: Maybe<String>;
-  author: UserCreateOneWithoutNotesInput;
-  categories?: Maybe<CategoryCreateManyWithoutNotesInput>;
-}
-
-export type NoteWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface CategoryCreateManyWithoutNotesInput {
-  create?: Maybe<
-    CategoryCreateWithoutNotesInput[] | CategoryCreateWithoutNotesInput
-  >;
-  connect?: Maybe<CategoryWhereUniqueInput[] | CategoryWhereUniqueInput>;
-}
-
-export type ProfileWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface CategoryCreateWithoutNotesInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-}
-
-export interface NoteUpdateManyWithoutAuthorInput {
-  create?: Maybe<NoteCreateWithoutAuthorInput[] | NoteCreateWithoutAuthorInput>;
-  delete?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  connect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  set?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  disconnect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
-  update?: Maybe<
-    | NoteUpdateWithWhereUniqueWithoutAuthorInput[]
-    | NoteUpdateWithWhereUniqueWithoutAuthorInput
-  >;
-  upsert?: Maybe<
-    | NoteUpsertWithWhereUniqueWithoutAuthorInput[]
-    | NoteUpsertWithWhereUniqueWithoutAuthorInput
-  >;
-  deleteMany?: Maybe<NoteScalarWhereInput[] | NoteScalarWhereInput>;
-  updateMany?: Maybe<
-    NoteUpdateManyWithWhereNestedInput[] | NoteUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface NoteUpdateInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  theme?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutNotesInput>;
-  categories?: Maybe<CategoryUpdateManyWithoutNotesInput>;
-}
-
-export interface ProfileUpdateInput {
-  user?: Maybe<UserUpdateOneRequiredWithoutProfileInput>;
-  wechat?: Maybe<String>;
-  qq?: Maybe<String>;
-  weibo?: Maybe<String>;
-  zhihu?: Maybe<String>;
-  github?: Maybe<String>;
-  facebook?: Maybe<String>;
-  linkin?: Maybe<String>;
-  google?: Maybe<String>;
-  juejin?: Maybe<String>;
-  avatar?: Maybe<String>;
-}
-
 export interface CategoryUpdateManyWithoutNotesInput {
   create?: Maybe<
     CategoryCreateWithoutNotesInput[] | CategoryCreateWithoutNotesInput
@@ -980,11 +1017,13 @@ export interface CategoryUpdateManyWithoutNotesInput {
   >;
 }
 
-export interface NoteCreateManyWithoutCategoriesInput {
-  create?: Maybe<
-    NoteCreateWithoutCategoriesInput[] | NoteCreateWithoutCategoriesInput
-  >;
-  connect?: Maybe<NoteWhereUniqueInput[] | NoteWhereUniqueInput>;
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  pwd: String;
+  email: String;
+  profile: ProfileCreateOneWithoutUserInput;
+  notes?: Maybe<NoteCreateManyWithoutAuthorInput>;
 }
 
 export interface CategoryUpdateWithWhereUniqueWithoutNotesInput {
@@ -992,32 +1031,86 @@ export interface CategoryUpdateWithWhereUniqueWithoutNotesInput {
   data: CategoryUpdateWithoutNotesDataInput;
 }
 
-export interface ProfileCreateOneWithoutUserInput {
-  create?: Maybe<ProfileCreateWithoutUserInput>;
-  connect?: Maybe<ProfileWhereUniqueInput>;
-}
-
-export interface CategoryUpdateWithoutNotesDataInput {
-  name?: Maybe<String>;
-}
-
-export interface UserUpdateInput {
-  name?: Maybe<String>;
-  pwd?: Maybe<String>;
-  email?: Maybe<String>;
-  profile?: Maybe<ProfileUpdateOneRequiredWithoutUserInput>;
-  notes?: Maybe<NoteUpdateManyWithoutAuthorInput>;
-}
-
-export interface NoteUpdateWithoutAuthorDataInput {
+export interface NoteWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
   title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
   content?: Maybe<String>;
+  content_not?: Maybe<String>;
+  content_in?: Maybe<String[] | String>;
+  content_not_in?: Maybe<String[] | String>;
+  content_lt?: Maybe<String>;
+  content_lte?: Maybe<String>;
+  content_gt?: Maybe<String>;
+  content_gte?: Maybe<String>;
+  content_contains?: Maybe<String>;
+  content_not_contains?: Maybe<String>;
+  content_starts_with?: Maybe<String>;
+  content_not_starts_with?: Maybe<String>;
+  content_ends_with?: Maybe<String>;
+  content_not_ends_with?: Maybe<String>;
   theme?: Maybe<String>;
-  categories?: Maybe<CategoryUpdateManyWithoutNotesInput>;
-}
-
-export interface CategoryUpdateManyDataInput {
-  name?: Maybe<String>;
+  theme_not?: Maybe<String>;
+  theme_in?: Maybe<String[] | String>;
+  theme_not_in?: Maybe<String[] | String>;
+  theme_lt?: Maybe<String>;
+  theme_lte?: Maybe<String>;
+  theme_gt?: Maybe<String>;
+  theme_gte?: Maybe<String>;
+  theme_contains?: Maybe<String>;
+  theme_not_contains?: Maybe<String>;
+  theme_starts_with?: Maybe<String>;
+  theme_not_starts_with?: Maybe<String>;
+  theme_ends_with?: Maybe<String>;
+  theme_not_ends_with?: Maybe<String>;
+  author?: Maybe<UserWhereInput>;
+  categories_every?: Maybe<CategoryWhereInput>;
+  categories_some?: Maybe<CategoryWhereInput>;
+  categories_none?: Maybe<CategoryWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<NoteWhereInput[] | NoteWhereInput>;
+  OR?: Maybe<NoteWhereInput[] | NoteWhereInput>;
+  NOT?: Maybe<NoteWhereInput[] | NoteWhereInput>;
 }
 
 export interface CategoryUpdateManyWithWhereNestedInput {
@@ -1065,87 +1158,50 @@ export interface CategoryUpsertWithWhereUniqueWithoutNotesInput {
   create: CategoryCreateWithoutNotesInput;
 }
 
-export interface UserUpdateWithoutProfileDataInput {
+export interface CategoryUpdateWithoutNotesDataInput {
   name?: Maybe<String>;
-  pwd?: Maybe<String>;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
   email?: Maybe<String>;
-  notes?: Maybe<NoteUpdateManyWithoutAuthorInput>;
+}>;
+
+export interface NoteUpsertWithWhereUniqueWithoutAuthorInput {
+  where: NoteWhereUniqueInput;
+  update: NoteUpdateWithoutAuthorDataInput;
+  create: NoteCreateWithoutAuthorInput;
 }
 
-export interface UserUpsertWithoutProfileInput {
-  update: UserUpdateWithoutProfileDataInput;
-  create: UserCreateWithoutProfileInput;
+export interface CategorySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CategoryWhereInput>;
+  AND?: Maybe<
+    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
+  >;
+  OR?: Maybe<CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput>;
+  NOT?: Maybe<
+    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
+  >;
 }
 
-export interface UserWhereInput {
+export interface NoteCreateWithoutCategoriesInput {
   id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  pwd?: Maybe<String>;
-  pwd_not?: Maybe<String>;
-  pwd_in?: Maybe<String[] | String>;
-  pwd_not_in?: Maybe<String[] | String>;
-  pwd_lt?: Maybe<String>;
-  pwd_lte?: Maybe<String>;
-  pwd_gt?: Maybe<String>;
-  pwd_gte?: Maybe<String>;
-  pwd_contains?: Maybe<String>;
-  pwd_not_contains?: Maybe<String>;
-  pwd_starts_with?: Maybe<String>;
-  pwd_not_starts_with?: Maybe<String>;
-  pwd_ends_with?: Maybe<String>;
-  pwd_not_ends_with?: Maybe<String>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  profile?: Maybe<ProfileWhereInput>;
-  notes_every?: Maybe<NoteWhereInput>;
-  notes_some?: Maybe<NoteWhereInput>;
-  notes_none?: Maybe<NoteWhereInput>;
-  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
-  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
-  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+  title?: Maybe<String>;
+  content: String;
+  theme?: Maybe<String>;
+  author: UserCreateOneWithoutNotesInput;
 }
 
-export interface UserCreateOneWithoutNotesInput {
-  create?: Maybe<UserCreateWithoutNotesInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserCreateWithoutProfileInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  pwd: String;
+  email: String;
+  notes?: Maybe<NoteCreateManyWithoutAuthorInput>;
 }
 
 export interface NodeNode {
@@ -1157,6 +1213,8 @@ export interface UserPreviousValues {
   name: String;
   pwd: String;
   email: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface UserPreviousValuesPromise
@@ -1166,6 +1224,8 @@ export interface UserPreviousValuesPromise
   name: () => Promise<String>;
   pwd: () => Promise<String>;
   email: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1175,27 +1235,27 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
   pwd: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface NoteConnection {
-  pageInfo: PageInfo;
-  edges: NoteEdge[];
+export interface CategoryEdge {
+  node: Category;
+  cursor: String;
 }
 
-export interface NoteConnectionPromise
-  extends Promise<NoteConnection>,
+export interface CategoryEdgePromise
+  extends Promise<CategoryEdge>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<NoteEdge>>() => T;
-  aggregate: <T = AggregateNotePromise>() => T;
+  node: <T = CategoryPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface NoteConnectionSubscription
-  extends Promise<AsyncIterator<NoteConnection>>,
+export interface CategoryEdgeSubscription
+  extends Promise<AsyncIterator<CategoryEdge>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<NoteEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateNoteSubscription>() => T;
+  node: <T = CategorySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProfileSubscriptionPayload {
@@ -1223,41 +1283,6 @@ export interface ProfileSubscriptionPayloadSubscription
   previousValues: <T = ProfilePreviousValuesSubscription>() => T;
 }
 
-export interface AggregateCategory {
-  count: Int;
-}
-
-export interface AggregateCategoryPromise
-  extends Promise<AggregateCategory>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCategorySubscription
-  extends Promise<AsyncIterator<AggregateCategory>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CategoryEdge {
-  node: Category;
-  cursor: String;
-}
-
-export interface CategoryEdgePromise
-  extends Promise<CategoryEdge>,
-    Fragmentable {
-  node: <T = CategoryPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CategoryEdgeSubscription
-  extends Promise<AsyncIterator<CategoryEdge>>,
-    Fragmentable {
-  node: <T = CategorySubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
 export interface BatchPayload {
   count: Long;
 }
@@ -1274,92 +1299,20 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
+export interface AggregateUser {
+  count: Int;
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface ProfilePreviousValues {
-  id: ID_Output;
-  wechat?: String;
-  qq?: String;
-  weibo?: String;
-  zhihu?: String;
-  github?: String;
-  facebook?: String;
-  linkin?: String;
-  google?: String;
-  juejin?: String;
-  avatar?: String;
-}
-
-export interface ProfilePreviousValuesPromise
-  extends Promise<ProfilePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  wechat: () => Promise<String>;
-  qq: () => Promise<String>;
-  weibo: () => Promise<String>;
-  zhihu: () => Promise<String>;
-  github: () => Promise<String>;
-  facebook: () => Promise<String>;
-  linkin: () => Promise<String>;
-  google: () => Promise<String>;
-  juejin: () => Promise<String>;
-  avatar: () => Promise<String>;
-}
-
-export interface ProfilePreviousValuesSubscription
-  extends Promise<AsyncIterator<ProfilePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  wechat: () => Promise<AsyncIterator<String>>;
-  qq: () => Promise<AsyncIterator<String>>;
-  weibo: () => Promise<AsyncIterator<String>>;
-  zhihu: () => Promise<AsyncIterator<String>>;
-  github: () => Promise<AsyncIterator<String>>;
-  facebook: () => Promise<AsyncIterator<String>>;
-  linkin: () => Promise<AsyncIterator<String>>;
-  google: () => Promise<AsyncIterator<String>>;
-  juejin: () => Promise<AsyncIterator<String>>;
-  avatar: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface PageInfo {
@@ -1385,258 +1338,6 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface User {
-  id: ID_Output;
-  name: String;
-  pwd: String;
-  email: String;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  pwd: () => Promise<String>;
-  email: () => Promise<String>;
-  profile: <T = ProfilePromise>() => T;
-  notes: <T = FragmentableArray<Note>>(args?: {
-    where?: NoteWhereInput;
-    orderBy?: NoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  pwd: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  profile: <T = ProfileSubscription>() => T;
-  notes: <T = Promise<AsyncIterator<NoteSubscription>>>(args?: {
-    where?: NoteWhereInput;
-    orderBy?: NoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  pwd: () => Promise<String>;
-  email: () => Promise<String>;
-  profile: <T = ProfilePromise>() => T;
-  notes: <T = FragmentableArray<Note>>(args?: {
-    where?: NoteWhereInput;
-    orderBy?: NoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface Category {
-  id: ID_Output;
-  name?: String;
-}
-
-export interface CategoryPromise extends Promise<Category>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  notes: <T = FragmentableArray<Note>>(args?: {
-    where?: NoteWhereInput;
-    orderBy?: NoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface CategorySubscription
-  extends Promise<AsyncIterator<Category>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  notes: <T = Promise<AsyncIterator<NoteSubscription>>>(args?: {
-    where?: NoteWhereInput;
-    orderBy?: NoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface CategoryNullablePromise
-  extends Promise<Category | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  notes: <T = FragmentableArray<Note>>(args?: {
-    where?: NoteWhereInput;
-    orderBy?: NoteOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface ProfileEdge {
-  node: Profile;
-  cursor: String;
-}
-
-export interface ProfileEdgePromise extends Promise<ProfileEdge>, Fragmentable {
-  node: <T = ProfilePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ProfileEdgeSubscription
-  extends Promise<AsyncIterator<ProfileEdge>>,
-    Fragmentable {
-  node: <T = ProfileSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CategorySubscriptionPayload {
-  mutation: MutationType;
-  node: Category;
-  updatedFields: String[];
-  previousValues: CategoryPreviousValues;
-}
-
-export interface CategorySubscriptionPayloadPromise
-  extends Promise<CategorySubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = CategoryPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = CategoryPreviousValuesPromise>() => T;
-}
-
-export interface CategorySubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<CategorySubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = CategorySubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = CategoryPreviousValuesSubscription>() => T;
-}
-
-export interface AggregateNote {
-  count: Int;
-}
-
-export interface AggregateNotePromise
-  extends Promise<AggregateNote>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateNoteSubscription
-  extends Promise<AsyncIterator<AggregateNote>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CategoryPreviousValues {
-  id: ID_Output;
-  name?: String;
-}
-
-export interface CategoryPreviousValuesPromise
-  extends Promise<CategoryPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface CategoryPreviousValuesSubscription
-  extends Promise<AsyncIterator<CategoryPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Note {
-  id: ID_Output;
-  title?: String;
-  content: String;
-  theme?: String;
-}
-
-export interface NotePromise extends Promise<Note>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  content: () => Promise<String>;
-  theme: () => Promise<String>;
-  author: <T = UserPromise>() => T;
-  categories: <T = FragmentableArray<Category>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface NoteSubscription
-  extends Promise<AsyncIterator<Note>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  content: () => Promise<AsyncIterator<String>>;
-  theme: () => Promise<AsyncIterator<String>>;
-  author: <T = UserSubscription>() => T;
-  categories: <T = Promise<AsyncIterator<CategorySubscription>>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface NoteNullablePromise
-  extends Promise<Note | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  content: () => Promise<String>;
-  theme: () => Promise<String>;
-  author: <T = UserPromise>() => T;
-  categories: <T = FragmentableArray<Category>>(args?: {
-    where?: CategoryWhereInput;
-    orderBy?: CategoryOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
 export interface UserConnection {
   pageInfo: PageInfo;
   edges: UserEdge[];
@@ -1656,6 +1357,43 @@ export interface UserConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
   aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface CategoryConnection {
+  pageInfo: PageInfo;
+  edges: CategoryEdge[];
+}
+
+export interface CategoryConnectionPromise
+  extends Promise<CategoryConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CategoryEdge>>() => T;
+  aggregate: <T = AggregateCategoryPromise>() => T;
+}
+
+export interface CategoryConnectionSubscription
+  extends Promise<AsyncIterator<CategoryConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCategorySubscription>() => T;
+}
+
+export interface AggregateProfile {
+  count: Int;
+}
+
+export interface AggregateProfilePromise
+  extends Promise<AggregateProfile>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateProfileSubscription
+  extends Promise<AsyncIterator<AggregateProfile>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface Profile {
@@ -1721,11 +1459,249 @@ export interface ProfileNullablePromise
   avatar: () => Promise<String>;
 }
 
+export interface ProfileConnection {
+  pageInfo: PageInfo;
+  edges: ProfileEdge[];
+}
+
+export interface ProfileConnectionPromise
+  extends Promise<ProfileConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ProfileEdge>>() => T;
+  aggregate: <T = AggregateProfilePromise>() => T;
+}
+
+export interface ProfileConnectionSubscription
+  extends Promise<AsyncIterator<ProfileConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ProfileEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateProfileSubscription>() => T;
+}
+
+export interface Category {
+  id: ID_Output;
+  name?: String;
+}
+
+export interface CategoryPromise extends Promise<Category>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  notes: <T = FragmentableArray<Note>>(args?: {
+    where?: NoteWhereInput;
+    orderBy?: NoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CategorySubscription
+  extends Promise<AsyncIterator<Category>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  notes: <T = Promise<AsyncIterator<NoteSubscription>>>(args?: {
+    where?: NoteWhereInput;
+    orderBy?: NoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CategoryNullablePromise
+  extends Promise<Category | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  notes: <T = FragmentableArray<Note>>(args?: {
+    where?: NoteWhereInput;
+    orderBy?: NoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface NoteEdge {
+  node: Note;
+  cursor: String;
+}
+
+export interface NoteEdgePromise extends Promise<NoteEdge>, Fragmentable {
+  node: <T = NotePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface NoteEdgeSubscription
+  extends Promise<AsyncIterator<NoteEdge>>,
+    Fragmentable {
+  node: <T = NoteSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CategorySubscriptionPayload {
+  mutation: MutationType;
+  node: Category;
+  updatedFields: String[];
+  previousValues: CategoryPreviousValues;
+}
+
+export interface CategorySubscriptionPayloadPromise
+  extends Promise<CategorySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CategoryPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CategoryPreviousValuesPromise>() => T;
+}
+
+export interface CategorySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CategorySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CategorySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CategoryPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateCategory {
+  count: Int;
+}
+
+export interface AggregateCategoryPromise
+  extends Promise<AggregateCategory>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCategorySubscription
+  extends Promise<AsyncIterator<AggregateCategory>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CategoryPreviousValues {
+  id: ID_Output;
+  name?: String;
+}
+
+export interface CategoryPreviousValuesPromise
+  extends Promise<CategoryPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface CategoryPreviousValuesSubscription
+  extends Promise<AsyncIterator<CategoryPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Note {
+  id: ID_Output;
+  title?: String;
+  content: String;
+  theme?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface NotePromise extends Promise<Note>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  content: () => Promise<String>;
+  theme: () => Promise<String>;
+  author: <T = UserPromise>() => T;
+  categories: <T = FragmentableArray<Category>>(args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface NoteSubscription
+  extends Promise<AsyncIterator<Note>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  content: () => Promise<AsyncIterator<String>>;
+  theme: () => Promise<AsyncIterator<String>>;
+  author: <T = UserSubscription>() => T;
+  categories: <T = Promise<AsyncIterator<CategorySubscription>>>(args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface NoteNullablePromise
+  extends Promise<Note | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  content: () => Promise<String>;
+  theme: () => Promise<String>;
+  author: <T = UserPromise>() => T;
+  categories: <T = FragmentableArray<Category>>(args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
 export interface NotePreviousValues {
   id: ID_Output;
   title?: String;
   content: String;
   theme?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface NotePreviousValuesPromise
@@ -1735,6 +1711,8 @@ export interface NotePreviousValuesPromise
   title: () => Promise<String>;
   content: () => Promise<String>;
   theme: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface NotePreviousValuesSubscription
@@ -1744,6 +1722,8 @@ export interface NotePreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   content: () => Promise<AsyncIterator<String>>;
   theme: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface NoteSubscriptionPayload {
@@ -1771,101 +1751,215 @@ export interface NoteSubscriptionPayloadSubscription
   previousValues: <T = NotePreviousValuesSubscription>() => T;
 }
 
-export interface CategoryConnection {
-  pageInfo: PageInfo;
-  edges: CategoryEdge[];
+export interface User {
+  id: ID_Output;
+  name: String;
+  pwd: String;
+  email: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
-export interface CategoryConnectionPromise
-  extends Promise<CategoryConnection>,
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  pwd: () => Promise<String>;
+  email: () => Promise<String>;
+  profile: <T = ProfilePromise>() => T;
+  notes: <T = FragmentableArray<Note>>(args?: {
+    where?: NoteWhereInput;
+    orderBy?: NoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  pwd: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  profile: <T = ProfileSubscription>() => T;
+  notes: <T = Promise<AsyncIterator<NoteSubscription>>>(args?: {
+    where?: NoteWhereInput;
+    orderBy?: NoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  pwd: () => Promise<String>;
+  email: () => Promise<String>;
+  profile: <T = ProfilePromise>() => T;
+  notes: <T = FragmentableArray<Note>>(args?: {
+    where?: NoteWhereInput;
+    orderBy?: NoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ProfilePreviousValues {
+  id: ID_Output;
+  wechat?: String;
+  qq?: String;
+  weibo?: String;
+  zhihu?: String;
+  github?: String;
+  facebook?: String;
+  linkin?: String;
+  google?: String;
+  juejin?: String;
+  avatar?: String;
+}
+
+export interface ProfilePreviousValuesPromise
+  extends Promise<ProfilePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  wechat: () => Promise<String>;
+  qq: () => Promise<String>;
+  weibo: () => Promise<String>;
+  zhihu: () => Promise<String>;
+  github: () => Promise<String>;
+  facebook: () => Promise<String>;
+  linkin: () => Promise<String>;
+  google: () => Promise<String>;
+  juejin: () => Promise<String>;
+  avatar: () => Promise<String>;
+}
+
+export interface ProfilePreviousValuesSubscription
+  extends Promise<AsyncIterator<ProfilePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  wechat: () => Promise<AsyncIterator<String>>;
+  qq: () => Promise<AsyncIterator<String>>;
+  weibo: () => Promise<AsyncIterator<String>>;
+  zhihu: () => Promise<AsyncIterator<String>>;
+  github: () => Promise<AsyncIterator<String>>;
+  facebook: () => Promise<AsyncIterator<String>>;
+  linkin: () => Promise<AsyncIterator<String>>;
+  google: () => Promise<AsyncIterator<String>>;
+  juejin: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface NoteConnection {
+  pageInfo: PageInfo;
+  edges: NoteEdge[];
+}
+
+export interface NoteConnectionPromise
+  extends Promise<NoteConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CategoryEdge>>() => T;
-  aggregate: <T = AggregateCategoryPromise>() => T;
+  edges: <T = FragmentableArray<NoteEdge>>() => T;
+  aggregate: <T = AggregateNotePromise>() => T;
 }
 
-export interface CategoryConnectionSubscription
-  extends Promise<AsyncIterator<CategoryConnection>>,
+export interface NoteConnectionSubscription
+  extends Promise<AsyncIterator<NoteConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCategorySubscription>() => T;
+  edges: <T = Promise<AsyncIterator<NoteEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateNoteSubscription>() => T;
 }
 
-export interface AggregateProfile {
+export interface AggregateNote {
   count: Int;
 }
 
-export interface AggregateProfilePromise
-  extends Promise<AggregateProfile>,
+export interface AggregateNotePromise
+  extends Promise<AggregateNote>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateProfileSubscription
-  extends Promise<AsyncIterator<AggregateProfile>>,
+export interface AggregateNoteSubscription
+  extends Promise<AsyncIterator<AggregateNote>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface NoteEdge {
-  node: Note;
+export interface ProfileEdge {
+  node: Profile;
   cursor: String;
 }
 
-export interface NoteEdgePromise extends Promise<NoteEdge>, Fragmentable {
-  node: <T = NotePromise>() => T;
+export interface ProfileEdgePromise extends Promise<ProfileEdge>, Fragmentable {
+  node: <T = ProfilePromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface NoteEdgeSubscription
-  extends Promise<AsyncIterator<NoteEdge>>,
+export interface ProfileEdgeSubscription
+  extends Promise<AsyncIterator<ProfileEdge>>,
     Fragmentable {
-  node: <T = NoteSubscription>() => T;
+  node: <T = ProfileSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ProfileConnection {
-  pageInfo: PageInfo;
-  edges: ProfileEdge[];
-}
-
-export interface ProfileConnectionPromise
-  extends Promise<ProfileConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ProfileEdge>>() => T;
-  aggregate: <T = AggregateProfilePromise>() => T;
-}
-
-export interface ProfileConnectionSubscription
-  extends Promise<AsyncIterator<ProfileConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ProfileEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateProfileSubscription>() => T;
-}
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+DateTime scalar input type, allowing Date
 */
-export type Int = number;
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 export type Long = string;
 
@@ -1876,14 +1970,14 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
+
+/*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /**
  * Model Metadata

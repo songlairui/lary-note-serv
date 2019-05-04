@@ -27,4 +27,5 @@ type Query {
 type Mutation {
   signin(signinInput: SigninInput): LoginInfo
   signup(signupInput: SignupInput): UserAbstract
+  resetLimit: String
 }
