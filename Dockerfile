@@ -5,7 +5,7 @@ RUN yarn config delete registry
 # RUN yarn config set registry https://registry.npm.taobao.org
 
 FROM base AS dependencies
-RUN yarn --production --verbose
+RUN yarn
 RUN cp -R ./node_modules /tmp
 
 FROM base AS release
