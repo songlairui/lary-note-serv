@@ -1,9 +1,30 @@
+input SigninInput {
+  email: String!
+  pwd: String!
+}
+
 input SignupInput {
   name: String!
   pwd: String!
   email: String!
 }
 
+type LoginInfo {
+  expiresIn: Int
+  accessToken: String
+}
+
+type UserAbstract {
+  id: String
+  name: String
+  email: String
+}
+
+type Query {
+  selfProfile: User
+}
+
 type Mutation {
-  signup(signupInput: SignupInput): User
+  signin(signinInput: SigninInput): LoginInfo
+  signup(signupInput: SignupInput): UserAbstract
 }

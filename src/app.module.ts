@@ -16,6 +16,7 @@ import { PrismaModule } from './prisma/prisma.module';
       resolverValidationOptions: {
         requireResolversForResolveType: false,
       },
+      context: ({ req }) => ({ req }),
     }),
     NoteModule,
     AuthModule,

@@ -741,6 +741,11 @@ export class ProfileWhereUniqueInput {
     id?: string;
 }
 
+export class SigninInput {
+    email: string;
+    pwd: string;
+}
+
 export class SignupInput {
     name: string;
     pwd: string;
@@ -969,8 +974,15 @@ export class CategorySubscriptionPayload {
     previousValues?: CategoryPreviousValues;
 }
 
+export class LoginInfo {
+    expiresIn?: number;
+    accessToken?: string;
+}
+
 export abstract class IMutation {
-    abstract signup(signupInput?: SignupInput): User | Promise<User>;
+    abstract signin(signinInput?: SigninInput): LoginInfo | Promise<LoginInfo>;
+
+    abstract signup(signupInput?: SignupInput): UserAbstract | Promise<UserAbstract>;
 
     abstract createUser(data: UserCreateInput): User | Promise<User>;
 
@@ -1112,6 +1124,8 @@ export class ProfileSubscriptionPayload {
 }
 
 export abstract class IQuery {
+    abstract selfProfile(): User | Promise<User>;
+
     abstract users(where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): User[] | Promise<User[]>;
 
     abstract profiles(where?: ProfileWhereInput, orderBy?: ProfileOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): Profile[] | Promise<Profile[]>;
@@ -1158,6 +1172,12 @@ export class User implements Node {
     email: string;
     profile: Profile;
     notes: Note[];
+}
+
+export class UserAbstract {
+    id?: string;
+    name?: string;
+    email?: string;
 }
 
 export class UserConnection {
