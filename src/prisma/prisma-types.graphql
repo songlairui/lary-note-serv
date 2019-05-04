@@ -1,4 +1,4 @@
-# source: http://localhost:44661
+# source: http://prisma:44661
 # timestamp: Sat May 04 2019 16:27:16 GMT+0800 (中国标准时间)
 
 type AggregateCategory {

@@ -1,19 +1,17 @@
-FROM node:carbon-alpine as dist
-WORKDIR /tmp/
-COPY package.json tsconfig.json tsconfig.build.json ./
-COPY src/ src/
-RUN yarn config set registry https://registry.npm.taobao.org
-RUN yarn
-RUN yarn build
+FROM node:carbon-alpine as base
+WORKDIR /app
+COPY package.json yarn.lock tsconfig.json tsconfig.build.json ./
+RUN yarn config delete registry
+# RUN yarn config set registry https://registry.npm.taobao.org
 
-FROM node:carbon-alpine as node_modules
-WORKDIR /tmp/
-COPY package.json ./
-RUN yarn config set registry https://registry.npm.taobao.org
-RUN yarn install --production
+FROM base AS dependencies
+RUN yarn --production --verbose
+RUN cp -R ./node_modules /tmp
 
-FROM node:carbon-alpine
-WORKDIR /usr/local/nub-api
-COPY --from=node_modules /tmp/node_modules ./node_modules
-COPY --from=dist /tmp/dist ./dist
-CMD ["node", "dist/src/main.js"]
+FROM base AS release
+COPY --from=dependencies /tmp/node_modules ./node_modules
+COPY . .
+ENV APP_PORT 3000
+EXPOSE $APP_PORT
+
+CMD [ "yarn", "start:prod" ]
