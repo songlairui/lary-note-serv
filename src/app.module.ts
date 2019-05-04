@@ -6,17 +6,12 @@ import { NoteModule } from './note/note.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { GraphqlOptions } from './graphql.options';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      debug: true,
-      playground: true,
-      typePaths: ['./**/*.graphql'],
-      resolverValidationOptions: {
-        requireResolversForResolveType: false,
-      },
-      context: ({ req }) => ({ req }),
+    GraphQLModule.forRootAsync({
+      useClass: GraphqlOptions,
     }),
     NoteModule,
     AuthModule,
@@ -25,5 +20,6 @@ import { PrismaModule } from './prisma/prisma.module';
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [AuthModule],
 })
 export class AppModule {}

@@ -14,7 +14,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../prisma/prisma.binding';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
-import { User as CurrentUser } from '../user.decorator';
+import { CurUser } from '../user.decorator';
 
 @Resolver('Auth')
 export class AuthResolver {
@@ -72,7 +72,7 @@ export class AuthResolver {
 
   @Query('selfProfile')
   @UseGuards(JwtAuthGuard)
-  async myProfile(@CurrentUser() curUser, @Info() info): Promise<User> {
+  async myProfile(@CurUser() curUser, @Info() info): Promise<User> {
     const { email } = curUser;
     const user = await this.prisma.query.user({ where: { email } }, info);
     delete user.pwd;

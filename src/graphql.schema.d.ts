@@ -981,59 +981,32 @@ export class LoginInfo {
 
 export abstract class IMutation {
     abstract signin(signinInput?: SigninInput): LoginInfo | Promise<LoginInfo>;
-
     abstract signup(signupInput?: SignupInput): UserAbstract | Promise<UserAbstract>;
-
     abstract createNoteAuto(data: NoteCreateWithoutAuthorInput): Note | Promise<Note>;
-
     abstract createUser(data: UserCreateInput): User | Promise<User>;
-
     abstract createProfile(data: ProfileCreateInput): Profile | Promise<Profile>;
-
     abstract createNote(data: NoteCreateInput): Note | Promise<Note>;
-
     abstract createCategory(data: CategoryCreateInput): Category | Promise<Category>;
-
     abstract updateUser(data: UserUpdateInput, where: UserWhereUniqueInput): User | Promise<User>;
-
     abstract updateProfile(data: ProfileUpdateInput, where: ProfileWhereUniqueInput): Profile | Promise<Profile>;
-
     abstract updateNote(data: NoteUpdateInput, where: NoteWhereUniqueInput): Note | Promise<Note>;
-
     abstract updateCategory(data: CategoryUpdateInput, where: CategoryWhereUniqueInput): Category | Promise<Category>;
-
     abstract deleteUser(where: UserWhereUniqueInput): User | Promise<User>;
-
     abstract deleteProfile(where: ProfileWhereUniqueInput): Profile | Promise<Profile>;
-
     abstract deleteNote(where: NoteWhereUniqueInput): Note | Promise<Note>;
-
     abstract deleteCategory(where: CategoryWhereUniqueInput): Category | Promise<Category>;
-
     abstract upsertUser(where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput): User | Promise<User>;
-
     abstract upsertProfile(where: ProfileWhereUniqueInput, create: ProfileCreateInput, update: ProfileUpdateInput): Profile | Promise<Profile>;
-
     abstract upsertNote(where: NoteWhereUniqueInput, create: NoteCreateInput, update: NoteUpdateInput): Note | Promise<Note>;
-
     abstract upsertCategory(where: CategoryWhereUniqueInput, create: CategoryCreateInput, update: CategoryUpdateInput): Category | Promise<Category>;
-
     abstract updateManyUsers(data: UserUpdateManyMutationInput, where?: UserWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract updateManyProfiles(data: ProfileUpdateManyMutationInput, where?: ProfileWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract updateManyNotes(data: NoteUpdateManyMutationInput, where?: NoteWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract updateManyCategories(data: CategoryUpdateManyMutationInput, where?: CategoryWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract deleteManyUsers(where?: UserWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract deleteManyProfiles(where?: ProfileWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract deleteManyNotes(where?: NoteWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract deleteManyCategories(where?: CategoryWhereInput): BatchPayload | Promise<BatchPayload>;
-
     abstract executeRaw(database: PrismaDatabase, query: string): Json | Promise<Json>;
 }
 
@@ -1127,43 +1100,26 @@ export class ProfileSubscriptionPayload {
 
 export abstract class IQuery {
     abstract selfProfile(): User | Promise<User>;
-
     abstract users(where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): User[] | Promise<User[]>;
-
     abstract profiles(where?: ProfileWhereInput, orderBy?: ProfileOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): Profile[] | Promise<Profile[]>;
-
     abstract notes(where?: NoteWhereInput, orderBy?: NoteOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): Note[] | Promise<Note[]>;
-
     abstract categories(where?: CategoryWhereInput, orderBy?: CategoryOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): Category[] | Promise<Category[]>;
-
     abstract user(where: UserWhereUniqueInput): User | Promise<User>;
-
     abstract profile(where: ProfileWhereUniqueInput): Profile | Promise<Profile>;
-
     abstract note(where: NoteWhereUniqueInput): Note | Promise<Note>;
-
     abstract category(where: CategoryWhereUniqueInput): Category | Promise<Category>;
-
     abstract usersConnection(where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): UserConnection | Promise<UserConnection>;
-
     abstract profilesConnection(where?: ProfileWhereInput, orderBy?: ProfileOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): ProfileConnection | Promise<ProfileConnection>;
-
     abstract notesConnection(where?: NoteWhereInput, orderBy?: NoteOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): NoteConnection | Promise<NoteConnection>;
-
     abstract categoriesConnection(where?: CategoryWhereInput, orderBy?: CategoryOrderByInput, skip?: number, after?: string, before?: string, first?: number, last?: number): CategoryConnection | Promise<CategoryConnection>;
-
     abstract node(id: string): Node | Promise<Node>;
-
     abstract temp__(): boolean | Promise<boolean>;
 }
 
 export abstract class ISubscription {
     abstract user(where?: UserSubscriptionWhereInput): UserSubscriptionPayload | Promise<UserSubscriptionPayload>;
-
     abstract profile(where?: ProfileSubscriptionWhereInput): ProfileSubscriptionPayload | Promise<ProfileSubscriptionPayload>;
-
     abstract note(where?: NoteSubscriptionWhereInput): NoteSubscriptionPayload | Promise<NoteSubscriptionPayload>;
-
     abstract category(where?: CategorySubscriptionWhereInput): CategorySubscriptionPayload | Promise<CategorySubscriptionPayload>;
 }
 
