@@ -1,16 +1,18 @@
-FROM node:8.16.0-alpine as dist
+FROM node:carbon-alpine as dist
 WORKDIR /tmp/
 COPY package.json tsconfig.json ./
 COPY src/ src/
+RUN yarn config set registry https://registry.npm.taobao.org
 RUN yarn
 RUN yarn build
 
-FROM node:8.16.0-alpine as node_modules
+FROM node:carbon-alpine as node_modules
 WORKDIR /tmp/
 COPY package.json ./
+RUN yarn config set registry https://registry.npm.taobao.org
 RUN yarn install --production
 
-FROM node:8.16.0-alpine
+FROM node:carbon-alpine
 WORKDIR /usr/local/nub-api
 COPY --from=node_modules /tmp/node_modules ./node_modules
 COPY --from=dist /tmp/dist ./dist

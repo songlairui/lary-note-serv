@@ -8,7 +8,7 @@ import {
   LoginInfo,
   UserOrderByInput,
 } from '../graphql.schema';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import {
   NotFoundException,
   Logger,
@@ -35,7 +35,20 @@ export class AuthResolver {
   ) {}
 
   async getHash(pwd: string | undefined): Promise<string> {
-    return bcrypt.hash(pwd, this.saltRounds);
+    return new Promise((r, j) => {
+      bcrypt.genSalt(this.saltRounds, (err0, salt) => {
+        if (err0) {
+          j(err0);
+        }
+        bcrypt.hash(pwd, salt, (err, hash) => {
+          if (err) {
+            j(err);
+          } else {
+            r(hash);
+          }
+        });
+      });
+    });
   }
   async verifyPwd(
     pwd: string | undefined,
