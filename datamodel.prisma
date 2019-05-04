@@ -3,7 +3,8 @@ type User {
   name: String!
   pwd: String!
   email: String! @unique
-  profile: Profile! @relation(name: "UserProfile", link: INLINE)
+  profile: Profile!
+    @relation(name: "UserProfile", link: INLINE, onDelete: CASCADE)
   notes: [Note!]! @relation(name: "NoteAuthor")
 }
 

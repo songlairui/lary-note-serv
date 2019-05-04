@@ -44,7 +44,7 @@ export interface Mutation {
     deleteManyProfiles: <T = BatchPayload>(args: { where?: ProfileWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyNotes: <T = BatchPayload>(args: { where?: NoteWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyCategories: <T = BatchPayload>(args: { where?: CategoryWhereInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    executeRaw: <T = Json>(args: { database?: PrismaDatabase | null, query: String }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
+    executeRaw: <T = Json>(args: { database: PrismaDatabase, query: String }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
   }
 
 export interface Subscription {
@@ -462,7 +462,7 @@ type Mutation {
   deleteManyProfiles(where: ProfileWhereInput): BatchPayload!
   deleteManyNotes(where: NoteWhereInput): BatchPayload!
   deleteManyCategories(where: CategoryWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
+  executeRaw(database: PrismaDatabase!, query: String!): Json!
 }
 
 enum MutationType {

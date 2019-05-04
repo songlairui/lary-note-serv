@@ -1,5 +1,5 @@
 # source: http://localhost:44661
-# timestamp: Fri May 03 2019 22:37:38 GMT+0800 (中国标准时间)
+# timestamp: Sat May 04 2019 00:03:48 GMT+0800 (中国标准时间)
 
 type AggregateCategory {
   count: Int!
@@ -380,7 +380,7 @@ type Mutation {
   deleteManyProfiles(where: ProfileWhereInput): BatchPayload!
   deleteManyNotes(where: NoteWhereInput): BatchPayload!
   deleteManyCategories(where: CategoryWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
+  executeRaw(database: PrismaDatabase!, query: String!): Json!
 }
 
 enum MutationType {

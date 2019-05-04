@@ -1,0 +1,9 @@
+input SignupInput {
+  name: String!
+  pwd: String!
+  email: String!
+}
+
+type Mutation {
+  signup(signupInput: SignupInput): User
+}
