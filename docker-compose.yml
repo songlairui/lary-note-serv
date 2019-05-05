@@ -3,13 +3,15 @@ services:
   notebook:
     image: lary/notebook
     restart: always
+    environment:
+      PRISMA_ENDPOINT: http://prisma:44661
     ports:
-    - "3333:3000"
+      - '3333:3000'
   prisma:
     image: prismagraphql/prisma:1.32
     restart: always
     ports:
-    - "44661:44661"
+      - '44661:44661'
     environment:
       PRISMA_CONFIG: |
         port: 44661
