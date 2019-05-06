@@ -27,11 +27,14 @@
     "@nestjs/jwt": "^6.0.0",
     "@nestjs/passport": "^6.0.0",
     "@nestjs/platform-express": "^6.0.0",
+    "apollo-server-env": "^2.2.0",
     "apollo-server-express": "^2.4.8",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
     "graphql": "^14.2.1",
+    "graphql-binding": "^2.5.1",
+    "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^4.0.4",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
@@ -40,7 +43,8 @@
     "prisma-client-lib": "^1.30.4",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "ws": "^7.0.0"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
