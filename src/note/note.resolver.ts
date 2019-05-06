@@ -17,10 +17,19 @@ import {
 import { CurUser } from '../user.decorator';
 import { UseGuards, Logger } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Note } from '../prisma/prisma.binding';
-import { PubSub } from 'graphql-subscriptions';
 
-const pubSub = new PubSub();
+function overCurUser(notesArgs, curUser) {
+  if (!notesArgs.where) {
+    notesArgs.where = new NoteWhereInput();
+  }
+  if (!notesArgs.where.author) {
+    notesArgs.where.author = new UserWhereInput();
+  } else {
+    this.logger.warn(`querying user ${curUser.email}`);
+  }
+  notesArgs.where.author.email = curUser.email;
+  return notesArgs;
+}
 
 @Resolver('Note')
 export class NoteResolver {
@@ -29,21 +38,16 @@ export class NoteResolver {
 
   @Query('notes')
   @UseGuards(JwtAuthGuard)
-  async myNotes(
-    @Args() args,
-    @Info() info,
-    @CurUser() curUser,
-  ): Promise<Note[]> {
-    if (!args.where) {
-      args.where = new NoteWhereInput();
-    }
-    if (!args.where.author) {
-      args.where.author = new UserWhereInput();
-    } else {
-      this.logger.warn(`querying user ${curUser.email}`);
-    }
-    args.where.author.email = curUser.email;
+  async myNotes(@Args() args, @Info() info, @CurUser() curUser) {
+    overCurUser(args, curUser);
     return await this.prisma.query.notes(args, info);
+  }
+
+  @Query('notesConnection')
+  @UseGuards(JwtAuthGuard)
+  async myNotesConnection(@Args() args, @Info() info, @CurUser() curUser) {
+    overCurUser(args, curUser);
+    return await this.prisma.query.notesConnection(args, info);
   }
 
   @Mutation('createNoteAuto')
