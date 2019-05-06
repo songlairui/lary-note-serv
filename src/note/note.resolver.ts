@@ -1,15 +1,26 @@
-import { Resolver, Mutation, Args, Info, Query } from '@nestjs/graphql';
+import {
+  Resolver,
+  Mutation,
+  Args,
+  Info,
+  Query,
+  Subscription,
+} from '@nestjs/graphql';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   NoteCreateInput,
   NoteCreateWithoutAuthorInput,
   NoteWhereInput,
   UserWhereInput,
+  NoteSubscriptionWhereInput,
 } from '../graphql.schema';
 import { CurUser } from '../user.decorator';
 import { UseGuards, Logger } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Note } from '../prisma/prisma.binding';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubSub = new PubSub();
 
 @Resolver('Note')
 export class NoteResolver {
@@ -26,12 +37,12 @@ export class NoteResolver {
     if (!args.where) {
       args.where = new NoteWhereInput();
     }
-    if (args.where.author) {
+    if (!args.where.author) {
+      args.where.author = new UserWhereInput();
+    } else {
       this.logger.warn(`querying user ${curUser.email}`);
     }
-    const author: UserWhereInput = new UserWhereInput();
-    author.email = curUser.email;
-    args.where.author = author;
+    args.where.author.email = curUser.email;
     return await this.prisma.query.notes(args, info);
   }
 
@@ -50,5 +61,21 @@ export class NoteResolver {
       },
       info,
     );
+  }
+  @Subscription('note')
+  @UseGuards(JwtAuthGuard)
+  async subscribeNote(
+    @Args('where') where: NoteSubscriptionWhereInput,
+    @Info() info,
+    @CurUser() curUser,
+  ) {
+    if (!where.node) {
+      where.node = new NoteWhereInput();
+    }
+    if (!where.node.author) {
+      where.node.author = new UserWhereInput();
+    }
+    where.node.author.email = curUser.email;
+    return this.prisma.subscription.note({ where }, info);
   }
 }
