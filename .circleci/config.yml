@@ -13,4 +13,4 @@ jobs:
       - run: docker build -t lary/note:$CIRCLE_BRANCH .
 
       # deploy the image
-      - run: docker push company/app:$CIRCLE_BRANCH
+      - run: docker push lary/note:$CIRCLE_BRANCH
