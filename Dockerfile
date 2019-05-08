@@ -1,10 +1,11 @@
 FROM node:carbon-alpine as base
 WORKDIR /app
 COPY package.json yarn.lock tsconfig.json tsconfig.build.json ./
-RUN yarn config delete registry
-# RUN yarn config set registry https://registry.npm.taobao.org
 
 FROM base AS dependencies
+RUN npm config delete registry
+RUN yarn config delete registry
+# RUN yarn config set registry https://registry.npm.taobao.org
 # RUN yarn global add prisma
 RUN yarn 
 RUN cp -R ./node_modules /tmp
