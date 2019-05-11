@@ -73,6 +73,9 @@ export class NoteResolver {
     @Info() info,
     @CurUser() curUser,
   ) {
+    if (!where) {
+      where = new NoteSubscriptionWhereInput();
+    }
     if (!where.node) {
       where.node = new NoteWhereInput();
     }

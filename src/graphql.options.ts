@@ -18,7 +18,11 @@ export class GraphqlOptions implements GqlOptionsFactory {
       //   path: join(process.cwd(), 'src/graphql.schema.ts'),
       //   outputAs: 'class',
       // },
-      context: ({ req }) => ({ req }),
+      context: ({ req, connection = {} }) => {
+        return {
+          req: req || { headers: connection.context },
+        };
+      },
     };
   }
 }
