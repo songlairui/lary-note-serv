@@ -13,6 +13,7 @@ export class OwnerGuard implements CanActivate {
     const [root, { where }, ctx] = args;
     const author = await client.note(where).author();
     const { user } = ctx.req;
+    // sentry email not equal
     return author.email === user.email;
   }
 }

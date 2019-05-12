@@ -96,15 +96,15 @@ export class NoteResolver {
     return this.prisma.subscription.note({ where }, info);
   }
   @Mutation('updateNote')
-  @UseGuards(JwtAuthGuard)
   @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard)
   async updateNote(@Args() args, @Info() info) {
     return this.prisma.mutation.updateNote(args, info);
   }
 
   @Mutation('deleteNote')
-  @UseGuards(JwtAuthGuard)
   @UseGuards(OwnerGuard)
+  @UseGuards(JwtAuthGuard)
   async deleteNote(@Args('where') where: NoteWhereUniqueInput, @Info() info) {
     return this.prisma.mutation.deleteNote({ where }, info);
   }
