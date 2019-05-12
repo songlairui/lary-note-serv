@@ -13,10 +13,13 @@ import {
   NoteWhereInput,
   UserWhereInput,
   NoteSubscriptionWhereInput,
+  NoteWhereUniqueInput,
+  NoteUpdateInput,
 } from '../graphql.schema';
 import { CurUser } from '../user.decorator';
 import { UseGuards, Logger } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { OwnerGuard } from 'src/auth/owner.gurad';
 
 function overCurUser(notesArgs, curUser) {
   if (!notesArgs.where) {
@@ -35,6 +38,13 @@ function overCurUser(notesArgs, curUser) {
 export class NoteResolver {
   private readonly logger = new Logger(NoteResolver.name);
   constructor(private readonly prisma: PrismaService) {}
+
+  @Query('note')
+  async oneNotes(@Args() args, @Info() info, @CurUser() curUser) {
+    overCurUser(args, curUser);
+
+    return await this.prisma.query.note(args, info);
+  }
 
   @Query('notes')
   @UseGuards(JwtAuthGuard)
@@ -84,5 +94,18 @@ export class NoteResolver {
     }
     where.node.author.email = curUser.email;
     return this.prisma.subscription.note({ where }, info);
+  }
+  @Mutation('updateNote')
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(OwnerGuard)
+  async updateNote(@Args() args, @Info() info) {
+    return this.prisma.mutation.updateNote(args, info);
+  }
+
+  @Mutation('deleteNote')
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(OwnerGuard)
+  async deleteNote(@Args('where') where: NoteWhereUniqueInput, @Info() info) {
+    return this.prisma.mutation.deleteNote({ where }, info);
   }
 }
