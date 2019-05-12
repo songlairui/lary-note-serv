@@ -6,8 +6,8 @@ import { join } from 'path';
 export class GraphqlOptions implements GqlOptionsFactory {
   createGqlOptions(): Promise<GqlModuleOptions> | GqlModuleOptions {
     return {
-      debug: true,
-      playground: true,
+      debug: false,
+      playground: false,
       typePaths: ['./**/*.graphql'],
       path: '/',
       installSubscriptionHandlers: true,

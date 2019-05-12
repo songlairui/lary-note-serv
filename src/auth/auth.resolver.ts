@@ -14,6 +14,7 @@ import {
   Logger,
   UseGuards,
   UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { JwtPayload } from './jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
@@ -60,7 +61,7 @@ export class AuthResolver {
   @Mutation('signup')
   async create(@Args('signupInput') args: SignupInput): Promise<UserAbstract> {
     if (this.cacheVar.signupCount > 10) {
-      throw new NotFoundException();
+      throw new ForbiddenException();
     }
     this.cacheVar.signupCount += 1;
     args.pwd = await this.getHash(args.pwd);
@@ -84,7 +85,7 @@ export class AuthResolver {
     const { email, pwd } = args;
     const targetUser = await this.prisma.query.user({ where: { email } });
     if (!targetUser || !(await this.verifyPwd(pwd, targetUser.pwd))) {
-      throw new NotFoundException();
+      throw new ForbiddenException();
     }
     const user: JwtPayload = {
       email,
