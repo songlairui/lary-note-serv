@@ -19,7 +19,7 @@ import {
 import { CurUser } from '../user.decorator';
 import { UseGuards, Logger } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { OwnerGuard } from 'src/auth/owner.gurad';
+import { OwnerGuard } from '../auth/owner.gurad';
 
 function overCurUser(notesArgs, curUser) {
   if (!notesArgs.where) {
